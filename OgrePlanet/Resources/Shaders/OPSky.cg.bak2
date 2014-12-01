@@ -1,0 +1,14 @@
+float phase(float phi, float g)
+{
+	float g2 = g*g;
+	float cosPhi = cos(phi);
+	float cosPhi2 = cosPhi*cosPhi;
+	return ((3.0*(1.0-g2))/(2.0*(2.0+g2))) * ((1.0+cosPhi2)/pow((1.0+g2-2.0*g*cosPhi), (3.0/2.0)));
+}
+
+float phase(float phi)
+{
+	float cosPhi = cos(phi);
+	float cosPhi2 = cosPhi*cosPhi;
+	return (3.0/4.0) * (1+cosPhi2);
+}

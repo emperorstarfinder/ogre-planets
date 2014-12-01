@@ -1,0 +1,13 @@
+compositor OgrePlanet/Test/GreenCompositor
+{
+	technique
+	{
+		target_output
+		{
+			pass render_quad
+			{
+				material OgrePlanet/Test/GreenMaterial
+			}
+		}
+	}
+}

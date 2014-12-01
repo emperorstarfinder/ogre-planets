@@ -1,0 +1,238 @@
+struct Ray
+{
+	float3 pos;
+	float3 dir; // must be normalized
+};
+
+struct PointPair
+{
+	int validPoints;
+	float point1;
+	float point2;
+};
+
+struct Sphere
+{
+	float3 pos;
+	float radius;
+};
+
+// Returns the smaller lambda, if ray intersects sphere
+bool nearSphereIntersect(Ray ray, Sphere sphere, out float lambda)
+{
+	float A = dot(ray.dir, ray.dir);
+	float B = 2 * (dot(ray.pos, ray.dir) - dot(ray.dir, sphere.pos));
+	float C = dot(ray.pos, ray.pos) + dot(sphere.pos, sphere.pos) -
+			2 * dot(ray.pos, sphere.pos) - sphere.radius * sphere.radius;
+	
+	float determinant = B * B - 4 * A * C;
+	if (determinant < 0)
+	{
+		return false;
+	}
+	else
+	{
+		lambda = (-B-sqrt(determinant))/(2*A);
+		return true;
+	}
+}
+
+// Returns the bigger lambda, if ray intersects sphere
+bool farSphereIntersect(Ray ray, Sphere sphere, out float lambda)
+{
+	float A = dot(ray.dir, ray.dir);
+	float B = 2 * (dot(ray.pos, ray.dir) - dot(ray.dir, sphere.pos));
+	float C = dot(ray.pos, ray.pos) + dot(sphere.pos, sphere.pos) -
+			2 * dot(ray.pos, sphere.pos) - sphere.radius * sphere.radius;
+	
+	float determinant = B * B - 4 * A * C;
+	if (determinant < 0)
+	{
+		return false;
+	}
+	else
+	{
+		lambda = (-B+sqrt(determinant))/(2*A);
+		return true;
+	}
+}
+
+PointPair raySphereIntersection(Ray ray, Sphere sphere)
+{
+	PointPair pointPair;
+	
+	float A = dot(ray.dir, ray.dir);
+	float B = 2 * (dot(ray.pos, ray.dir) - dot(ray.dir, sphere.pos));
+	float C = dot(ray.pos, ray.pos) + dot(sphere.pos, sphere.pos) -
+			2 * dot(ray.pos, sphere.pos) - sphere.radius * sphere.radius;
+	
+	float determinant = B * B - 4 * A * C;
+	if (determinant < 0)
+	{
+		pointPair.validPoints = 0;
+		return pointPair;
+	}
+	else if (determinant == 0)
+	{
+		pointPair.validPoints = 1;
+		pointPair.point1 = -B/(2*A);
+		return pointPair;
+	}
+	else
+	{
+		pointPair.validPoints = 2;
+		pointPair.point1 = (-B+sqrt(determinant))/(2*A);
+		pointPair.point2 = (-B-sqrt(determinant))/(2*A);
+		return pointPair;
+	}
+}
+
+float t(float3 Pa, float3 Pb, float kLambda)
+{
+	// Integrate from Pa to Pb
+	float constant = 4 * pi * kLambda;
+	float3 samplePosition = Pa;
+	float3 dir = normalize(Pb - Pa);
+	float stepDistance = distance(Pa, Pb)/10;
+	float sum = 0;
+	
+	for (int i = 0; i <= 10; i++)
+	{
+		samplePosition = samplePosition + stepDistance * dir;
+		float airDensity = exp((length(samplePosition)-baseRadius) / (0.25 * skyHeight));
+		sum = sum + airDensity * stepDistance;
+	}
+	
+	return constant * sum;
+}
+
+void main_vp(
+		float4 position : POSITION,
+
+		out float4 oPosition : POSITION,
+		out float3 objectPos : TEXCOORD0,
+
+		uniform float4x4 worldViewProj)
+{
+	objectPos = position.xyz;
+	oPosition = mul(worldViewProj, position);
+}
+
+void main_fp(float4 position : TEXCOORD0,
+
+		out float4 color     : COLOR,
+
+		uniform float3 lightPosition,
+		uniform float3 eyePosition,
+		uniform float baseRadius,
+		uniform float skyHeight)
+{
+	float3 P = position.xyz;
+	
+	float3 eyeToPDir = normalize(P - eyePosition);
+	float3 PToLightDir = normalize(lightPosition.xyz);
+	
+	float3 eyePos = eyePosition;
+	Ray eyeToPRay;
+	eyeToPRay.pos = eyePos;
+	eyeToPRay.dir = eyeToPDir;
+	
+	Sphere atmoSphere;
+	atmoSphere.pos = float3(0.0, 0.0, 0.0);
+	atmoSphere.radius = baseRadius + skyHeight;
+	
+	float lambda;
+	if (nearSphereIntersect(eyeToPRay, atmoSphere, lambda) > 0)
+	{
+		// Near intersection is in front of eyePos, thus we are in space
+		// Move eyePos to atmosphere
+		eyePos = eyeToPRay.pos + lambda * eyeToPRay.dir;
+	}
+
+	float stepDistance = distance(eyePos, P) / 10;
+	
+	// Angle between view direction and direction to sun.
+	// Computable outside of integration, since
+	// we're assuming parallel light.
+	float alpha = acos(dot(eyeToPDir, PToLightDir));
+	
+	// "Integrate" back to front
+	// (since accumulated in-scattered light might be out-scattered
+	// as it approaches the viewer.)
+	
+	float3 samplePosition = P;
+	float red = 0;
+	float green = 0;
+	float blue = 0;
+	float PI = 3.14159;
+	for (int i = 1; i <= 10; i++)
+	{
+		samplePosition = samplePosition + stepDistance * -eyeToPRay.dir;
+		float airDensity = exp((length(samplePosition)-baseRadius) / (0.25 * skyHeight));
+		float f_outscatter_red = 0.00001;
+		float f_outscatter_green = 0.01;
+		float f_outscatter_blue = 0.01;
+		red = red + 0.005 * (stepDistance / skyHeight) * (exp(-9.21034*alpha/PI) * airDensity * cos(alpha/2.0)) -
+			f_outscatter_red * airDensity * red;
+		green = green + 0.005 * (stepDistance / skyHeight) * (exp(-6.90775*alpha/PI) * airDensity * cos(alpha/2.0)) -
+			f_outscatter_green * airDensity * green;
+		blue = blue + 0.005 * (stepDistance / skyHeight) * (exp(-4.605*alpha/PI) * airDensity * cos(alpha/2.0)) -
+			f_outscatter_blue * airDensity * blue;
+	}
+	
+	color = float4(red, green, blue, 1.0);
+
+	//float highlight = pow(dot(eyeToPDir, PToLightDir), 3);
+
+	//float3 baseColor = float3(0.3, 0.3, 1.0);
+	//float3 highlightColor = float3(1.0, 1.0, 1.0);
+	
+	//Ray ray;
+	//ray.pos = P;
+	//ray.dir = -eyeToPDir;
+	
+	//Sphere sphere;
+	//sphere.pos = float3(0.0, 0.0, 0.0);
+	//sphere.radius = baseRadius + skyHeight;
+	
+	//float skyBoxDistance = length(P - eyePosition);
+
+	//PointPair pointPair = raySphereIntersection(ray, sphere);
+	//if (pointPair.validPoints == 2)
+	//{
+	//	float d = skyBoxDistance;
+		
+	//	if (pointPair.point1 > pointPair.point2 && pointPair.point1 > 0)
+	//	{
+	//		d = pointPair.point1;
+	//	}
+	//	else if (pointPair.point2 > 0)
+	//	{
+	//		d = pointPair.point2;
+	//	}
+		
+	//	if (d < skyBoxDistance)
+	//	{
+	//		skyBoxDistance = d;
+	//	}
+	//}
+
+	//float3 samplePosition = P;
+	//float stepDistance = skyBoxDistance / 4;
+	//float totalAir = 0;
+	
+	// "Integrate"
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	samplePosition = samplePosition + stepDistance * ray.dir;
+	//	float airDensity = 1.0 - (length(samplePosition) - baseRadius) / skyHeight;
+	//	totalAir = totalAir + airDensity * stepDistance;
+	//}
+	
+	//skyBoxDistance = max(skyBoxDistance, 0);
+	//skyBoxDistance = min(skyBoxDistance, skyHeight);
+	//skyBoxDistance = skyBoxDistance / skyHeight;
+	
+	//color.rgb = highlight * highlightColor + (1-highlight) * baseColor;
+	//color.a = totalAir/skyHeight;
+}

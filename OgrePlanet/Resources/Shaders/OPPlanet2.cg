@@ -1,0 +1,146 @@
+void main_vp(
+		float4 position : POSITION,
+		float3 normal   : NORMAL,
+
+		out float4 oPosition : POSITION,
+		out float3 objectPos : TEXCOORD1,
+		out float3 oNormal   : TEXCOORD2,
+		out float oHeight    : TEXCOORD3,
+
+		uniform float4x4 worldViewProj,
+		uniform float baseRadius,
+		uniform float scalingFactor)
+{
+	objectPos = position.xyz;
+	oNormal = normal;
+	float height = length(objectPos) - baseRadius;
+	
+	// if height < 0, move vertex out to baseRadius
+	if (height < 0)
+	{
+		oNormal = normalize(position).xyz;
+		position.xyz = baseRadius * oNormal;
+	}
+	
+	oPosition = mul(worldViewProj, position);
+	oHeight = smoothstep(-scalingFactor, scalingFactor, height);
+}
+
+void main_fp(
+		float2 texCoord  : TEXCOORD0,
+		float4 position  : TEXCOORD1,
+		float3 normal    : TEXCOORD2,
+		float height     : TEXCOORD3,
+
+		out float4 color     : COLOR,
+
+		//uniform float3 globalAmbient,
+		//uniform float3 lightColor,
+		//uniform float3 lightPosition,
+		//uniform float3 eyePosition,
+		//uniform float3 Ke,
+		//uniform float3 Ka,
+		//uniform float3 Kd,
+		//uniform float3 Ks,
+		//uniform float  shininess,
+		uniform sampler2D texture)
+{
+	float4 testColor = tex2D(texture, texCoord);
+
+	float3 baseColor = float3(0.0, 0.0, 0.0);
+	
+	float3 P = position.xyz;
+	float3 N = normalize(normal);
+	
+	float h2;
+		
+	float3 deep = float3(0.0, 0.0, 0.5);
+	float3 shallow = float3(0.0, 0.0, 1.0);
+	float3 shore = float3(0.0, 0.5, 1.0);
+	float3 sand = float3(240.0/255.0, 240.0/255.0, 64.0/255.0);
+	float3 grass = float3(32.0/255.0, 160.0/255.0, 0.0);
+	float3 dirt = float3(224.0/255.0, 224.0/255.0, 0.0);
+	float3 rock = float3(0.5, 0.5, 0.5);
+	float3 snow = float3(1.0, 1.0, 1.0);
+		
+	float3 lowColor;
+	float3 highColor;
+		
+	if (height < 0.5)
+	{
+		h2 = smoothstep(0.0, 0.5, height);
+		//h2 = smoothstep(0.5, 0.5 + 0.0625 / 2.0, height);
+		lowColor = deep;
+		highColor = shallow;
+	}
+	else if (height < 0.5 + 0.0625 / 2.0)
+	//if (height < 0.5 + 0.0625 / 2.0)
+	{
+		h2 = smoothstep(0.0, 0.5 + 0.0625 / 2.0, height);
+		//h2 = smoothstep(0.5, 0.5 + 0.0625 / 2.0, height);
+		lowColor = sand;
+		highColor = sand;
+	}
+	else if (height < 0.5 + 0.125 / 2.0)
+	{
+		h2 = smoothstep(0.5 + 0.0625 / 2.0, 0.5 + 0.125 / 2.0, height);
+		lowColor = sand;
+		highColor = grass;
+	}
+	else if (height < 0.5 + 0.375 / 2.0)
+	{
+		h2 = smoothstep(0.5 + 0.125 / 2.0, 0.5 + 0.375 / 2.0, height);
+		lowColor = grass;
+		highColor = dirt;
+	}
+	else if (height < 0.5 + 0.75 / 2.0)
+	{
+		h2 = smoothstep(0.5 + 0.375 / 2.0, 0.5 + 0.75 / 2.0, height);
+		lowColor = dirt;
+		highColor = rock;
+	}
+	else
+	{
+		h2 = smoothstep(0.5 + 0.75 / 2.0, 1.0, height);
+		lowColor = rock;
+		highColor = snow;
+	}
+	
+	baseColor = h2 * highColor + (1-h2) * lowColor;
+
+	float3 Pnorm = normalize(P);
+
+	// If we are near the poles, add more snow
+	//float3 yAxis = float3(0.0, 1.0, 0.0);
+	//float nearPole = smoothstep(0.9, 0.91, abs(dot(Pnorm, yAxis)));
+	//baseColor = nearPole * snow + (1-nearPole) * baseColor;
+
+	// If we have a high slope, add more rock
+	float slope = 1 - dot(normal, Pnorm);
+	baseColor = slope * rock + (1-slope) * baseColor;
+
+	// Compute the emissive term
+	float3 emissive = Ke;
+
+	// Compute the ambient term
+	float3 ambient = Ka * globalAmbient;
+
+	// Compute the diffuse term
+	//float3 L = normalize(lightPosition - P);
+	float3 L = normalize(lightPosition);
+	float diffuseLight = max(dot(N, L), 0);
+	float3 diffuse = Kd * lightColor * diffuseLight;
+
+	// Compute the specular term
+	float3 V = normalize(eyePosition - P);
+	float3 H = normalize(L + V);
+	float specularLight = pow(max(dot(N, H), 0), shininess);
+
+	if (diffuseLight <= 0) specularLight = 0;
+
+	float3 specular = Ks * lightColor * specularLight;
+
+	color.xyz = baseColor * (emissive + ambient + diffuse + specular);
+	color.w = 1;
+	//color = tex2D(diffuseTexture, texCoord);
+}

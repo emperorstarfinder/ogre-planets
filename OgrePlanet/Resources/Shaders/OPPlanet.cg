@@ -1,0 +1,114 @@
+// Copyright (c) 2010 Anders Lingfors
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+float2 convertTexCoord(float2 texCoord, int sample)
+{
+	float2 myTexCoord = frac(texCoord) * (255.0 / 256.0) + 0.5 / 256.0;
+	int x = fmod((float)sample,4.0);
+	int y = 3 - (sample / 4);
+	return float2(0.25 * x + 0.25 * myTexCoord.x, 0.25 * y + 0.25 * myTexCoord.y);
+}
+
+void main_vp(
+		float4 position : POSITION,
+		float3 normal   : NORMAL,
+		float2 texCoord	: TEXCOORD0,
+		float4 interpolatedPosition : TEXCOORD1,
+		float3 interpolatedNormal : TEXCOORD2,
+
+		out float4 oPosition : POSITION,
+		out float2 oTexCoord  : TEXCOORD0,
+		out float3 objectPos : TEXCOORD1,
+		out float3 oNormal   : TEXCOORD2,
+		out float oHeight    : TEXCOORD3,
+
+		uniform float4x4 worldViewProj,
+		//uniform float3 eyePosition,
+		uniform float time,
+		uniform float baseRadius,
+		//uniform float scalingFactor,
+		uniform float4 textureSize,
+		//uniform float4 minDistance,
+		uniform float4 patchCreationTime)
+{
+	//float distance = length(position - eyePosition);
+	//float max = 2 * minDistance.x;
+	//float min = minDistance.x;
+	//float lerpVal = saturate((distance - min) / (max - min));
+	
+	float lerpVal = saturate((time - patchCreationTime.x) / 2500.0);
+	
+	position = lerp(interpolatedPosition, position, lerpVal);
+	normal = normalize(lerp(interpolatedNormal, normal, lerpVal));
+
+	objectPos = position.xyz;
+	oNormal = normal;
+	oHeight = length(objectPos) - baseRadius;
+	
+	oPosition = mul(worldViewProj, position);
+	//oPosition = mul(worldViewProj, interpolatedPosition);
+
+	// Manage tex coords	
+	float pixelWidth = 1.0/textureSize.x;
+	float offset = 0.5 * pixelWidth;
+	oTexCoord.x = (texCoord.x*pixelWidth)*(textureSize.x-1)+offset;
+	oTexCoord.y = (texCoord.y*pixelWidth)*(textureSize.x-1)+offset;
+}
+
+void main_fp(
+		float2 texCoord  : TEXCOORD0,
+		float4 position  : TEXCOORD1,
+		float3 normal    : TEXCOORD2,
+		float height     : TEXCOORD3,
+
+		out float4 oColor     : COLOR,
+
+		uniform float3 globalAmbient,
+		uniform float3 lightColor,
+		uniform float3 lightPosition,
+		//uniform float3 eyePosition,
+		uniform float3 Ka,
+		uniform float3 Kd,
+		//uniform sampler2D detailTexture : TEXUNIT0,
+		uniform sampler3D texture)
+{
+	//if (height < 0)
+	//{
+	//	oColor.a = 0.0;
+	//	return;
+	//}
+
+	//float3 viewVec = position.xyz - eyePosition;
+
+	//float3 N = normalize(tex3D(texture, float3(texCoord.x, texCoord.y, 0.75)).rgb * 2.0 - 1.0);
+	float3 N = normalize(normal);
+	float3 L = normalize(lightPosition);
+	float NdotL = dot(N, L);
+	float3 surfaceColor = tex3D(texture, float3(texCoord.x, texCoord.y, 0.25)).rgb;
+	//float3 detailSurfaceColor = tex2D(detailTexture, convertTexCoord(10000 * texCoord, 1)).rgb;
+	//float3 finalSurfaceColor = lerp(detailSurfaceColor.rgb, surfaceColor.rgb, saturate((length(viewVec) - 500.0) / 500.0));
+	oColor.rgb = (Ka * globalAmbient + Kd*lightColor * max(NdotL, 0.0)) * surfaceColor;
+	oColor.a = 1.0;
+	
+	//if (height < 0)
+	//{
+	//	oColor.a = 0.0;
+	//}
+}

@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Materials">
+      <UniqueIdentifier>{5a029a24-8adb-4835-8ed5-a7d28deabf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Programs">
+      <UniqueIdentifier>{74922103-3add-475f-b6a5-8d7d8f419860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{3d03633a-2fec-4f88-bf97-9705fd81b0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{155984b8-5abf-4205-89e8-72a9d6761533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Compositors">
+      <UniqueIdentifier>{141420b7-9e5f-451f-9d9b-d7316bc8a180}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OPApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPDEMDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPHeightDataResourceLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPIdentityDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPPatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPPatchMeshLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPPatchMeshLoaderDestroyer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPPatchMeshLoaderQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPPlanet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPRawDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPSimpleRandomDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPGpuNoiseDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OPNoiseppDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OPApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPDEMDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPHeightDataResourceLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPIdentityDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPPatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPPatchMeshLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPPatchMeshLoaderDestroyer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPPatchMeshLoaderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPPlanet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPRawDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPSimpleRandomDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPStitching.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPGpuNoiseDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OPNoiseppDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Materials\OPOcean.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Materials\OPPlanet.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Materials\OPSky.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Programs\OPOcean.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Programs\OPPlanet.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Programs\OPSky.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Shaders\functions.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPOcean.cg">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPOcean.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPPlanet.cg">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPPlanet.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPSky.cg">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPSky.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Images\terraintex.jpg">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Resources\Programs\OPGreen.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPGreen.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPNoise.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Materials\OPSun.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Programs\OPSun.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPSun.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Images\grad3d.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Resources\Images\grad4d.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Resources\Images\perm.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Resources\Compositors\OPNoiseTest.compositor">
+      <Filter>Resource Files\Compositors</Filter>
+    </None>
+    <None Include="Resources\Materials\OPNoiseTest.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Programs\OPNoiseTest.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPNoiseTest.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPSkyATI.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPSkyOneill.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPTerrainGouraud.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Materials\OPTerrainGouraud.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Programs\OPTerrainGouraud.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Shaders\OPTerrainPhong.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Materials\OPTerrainPhong.material">
+      <Filter>Resource Files\Materials</Filter>
+    </None>
+    <None Include="Resources\Programs\OPTerrainPhong.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+    <None Include="Resources\Programs\OPDepthPass.program">
+      <Filter>Resource Files\Programs</Filter>
+    </None>
+  </ItemGroup>
+</Project>

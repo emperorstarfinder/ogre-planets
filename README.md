@@ -1,4 +1,4 @@
-ogre-planets
-============
+# README #
 
-Opensouurce implementation of planets for ogre3d engine
+This is the osgre planets code done by alex.
+

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C342ACAA-95B4-4BBD-8D68-AAF351A4D2BB}</ProjectGuid>
+    <RootNamespace>OgreEarth</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Command>copy "$(TargetPath)" "C:\Users\Anders\Source\ogre-build\bin\$(Configuration)"
+copy "$(ProjectDir)Resources\Images" "C:\Users\Anders\Source\ogre\Samples\Media\materials\textures"
+copy "$(ProjectDir)Resources\Materials" "C:\Users\Anders\Source\ogre\Samples\Media\materials\scripts"
+copy "$(ProjectDir)Resources\Shaders" "C:\Users\Anders\Source\ogre\Samples\Media\materials\programs"
+copy "$(ProjectDir)Resources\Programs" "C:\Users\Anders\Source\ogre\Samples\Media\materials\programs"
+copy "C:\Users\Anders\Source\libnoise\bin\libnoise.dll" "C:\Users\Anders\Source\ogre-build\bin\$(Configuration)"
+</Command>
+      <Outputs>nonexistant.exe;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\OgreMain\include;C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\include;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Common\include;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Dependencies\include;C:\Users\Anders\Source-VS2010\boost_1_47_0;C:\Users\Anders\Source-VS2010\libnoise\include;C:\Users\Anders\Source\noisepp-0.3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;libnoise_d.lib;noisepp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Anders\Source\noisepp-0.3\build\lib\$(Configuration);C:\Users\Anders\Source-VS2010\boost_1_47_0\stage\lib;C:\Users\Anders\Source-VS2010\libnoise\lib;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Dependencies\lib\$(Configuration);C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\bin\$(Configuration)"
+copy "$(ProjectDir)Resources\Images" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\textures"
+copy "$(ProjectDir)Resources\Materials" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\scripts"
+copy "$(ProjectDir)Resources\Shaders" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\programs"
+copy "$(ProjectDir)Resources\Programs" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\programs"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Command>
+      </Command>
+      <Outputs>nonexistant.exe;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\OgreMain\include;C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\include;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Common\include;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Dependencies\include;C:\Users\Anders\Source-VS2010\boost_1_47_0;C:\Users\Anders\Source-VS2010\libnoise\include;C:\Users\Anders\Source\noisepp-0.3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;libnoise.lib;noisepp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Anders\Source\noisepp-0.3\build\lib\$(Configuration);C:\Users\Anders\Source-VS2010\boost_1_47_0\stage\lib;C:\Users\Anders\Source-VS2010\libnoise\lib;C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Dependencies\lib\$(Configuration);C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "C:\Users\Anders\Source-VS2010\ogre_build_v1-7-3\bin\$(Configuration)"
+copy "$(ProjectDir)Resources\Images" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\textures"
+copy "$(ProjectDir)Resources\Materials" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\scripts"
+copy "$(ProjectDir)Resources\Shaders" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\programs"
+copy "$(ProjectDir)Resources\Programs" "C:\Users\Anders\Source-VS2010\ogre_src_v1-7-3\Samples\Media\materials\programs"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="OPApplication.cpp" />
+    <ClCompile Include="OPDEMDataSource.cpp" />
+    <ClCompile Include="OPGpuNoiseDataSource.cpp" />
+    <ClCompile Include="OPHeightDataResourceLoader.cpp" />
+    <ClCompile Include="OPIdentityDataSource.cpp" />
+    <ClCompile Include="OPMain.cpp" />
+    <ClCompile Include="OPNoiseppDataSource.cpp" />
+    <ClCompile Include="OPPatch.cpp" />
+    <ClCompile Include="OPPatchMeshLoader.cpp" />
+    <ClCompile Include="OPPatchMeshLoaderDestroyer.cpp" />
+    <ClCompile Include="OPPatchMeshLoaderQueue.cpp" />
+    <ClCompile Include="OPPlanet.cpp" />
+    <ClCompile Include="OPRawDataSource.cpp" />
+    <ClCompile Include="OPSimpleRandomDataSource.cpp" />
+    <ClCompile Include="OPUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OPApplication.h" />
+    <ClInclude Include="OPDataSource.h" />
+    <ClInclude Include="OPDEMDataSource.h" />
+    <ClInclude Include="OPGpuNoiseDataSource.h" />
+    <ClInclude Include="OPHeightDataResourceLoader.h" />
+    <ClInclude Include="OPIdentityDataSource.h" />
+    <ClInclude Include="OPNoiseppDataSource.h" />
+    <ClInclude Include="OPPatch.h" />
+    <ClInclude Include="OPPatchMeshLoader.h" />
+    <ClInclude Include="OPPatchMeshLoaderDestroyer.h" />
+    <ClInclude Include="OPPatchMeshLoaderQueue.h" />
+    <ClInclude Include="OPPlanet.h" />
+    <ClInclude Include="OPRawDataSource.h" />
+    <ClInclude Include="OPSimpleRandomDataSource.h" />
+    <ClInclude Include="OPStitching.h" />
+    <ClInclude Include="OPUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Compositors\OPNoiseTest.compositor" />
+    <None Include="Resources\Images\grad3d.png" />
+    <None Include="Resources\Images\grad4d.png" />
+    <None Include="Resources\Images\perm.png" />
+    <None Include="Resources\Materials\OPNoiseTest.material" />
+    <None Include="Resources\Materials\OPOcean.material" />
+    <None Include="Resources\Materials\OPPlanet.material" />
+    <None Include="Resources\Materials\OPSky.material" />
+    <None Include="Resources\Materials\OPSun.material" />
+    <None Include="Resources\Materials\OPTerrainGouraud.material" />
+    <None Include="Resources\Materials\OPTerrainPhong.material" />
+    <None Include="Resources\Programs\OPDepthPass.program" />
+    <None Include="Resources\Programs\OPGreen.program" />
+    <None Include="Resources\Programs\OPNoiseTest.program" />
+    <None Include="Resources\Programs\OPOcean.program" />
+    <None Include="Resources\Programs\OPPlanet.program" />
+    <None Include="Resources\Programs\OPSky.program" />
+    <None Include="Resources\Programs\OPSun.program" />
+    <None Include="Resources\Programs\OPTerrainGouraud.program" />
+    <None Include="Resources\Programs\OPTerrainPhong.program" />
+    <None Include="Resources\Shaders\functions.hlsl" />
+    <None Include="Resources\Shaders\OPGreen.hlsl" />
+    <None Include="Resources\Shaders\OPNoiseTest.hlsl" />
+    <None Include="Resources\Shaders\OPOcean.cg" />
+    <None Include="Resources\Shaders\OPOcean.hlsl" />
+    <None Include="Resources\Shaders\OPNoise.hlsl" />
+    <None Include="Resources\Shaders\OPPlanet.cg" />
+    <None Include="Resources\Shaders\OPPlanet.hlsl" />
+    <None Include="Resources\Shaders\OPSky.cg" />
+    <None Include="Resources\Shaders\OPSky.hlsl" />
+    <None Include="Resources\Images\terraintex.jpg" />
+    <None Include="Resources\Shaders\OPSkyATI.hlsl" />
+    <None Include="Resources\Shaders\OPSkyOneill.hlsl" />
+    <None Include="Resources\Shaders\OPSun.hlsl" />
+    <None Include="Resources\Shaders\OPTerrainGouraud.hlsl" />
+    <None Include="Resources\Shaders\OPTerrainPhong.hlsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
